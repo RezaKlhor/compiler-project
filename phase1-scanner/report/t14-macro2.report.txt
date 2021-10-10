@@ -1,0 +1,1 @@
+different line count in these files! : file out/t14-macro2.out : #10 , file tests/t14-macro2.out : #18 
