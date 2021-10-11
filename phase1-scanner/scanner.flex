@@ -9,26 +9,37 @@
     Map<String, String> defineMap = new HashMap<String, String>();
 %}
 
-/* comments */
-InputCharacter = [^\r\n]
-Comment = {TraditionalComment} | {EndOfLineComment}
-TraditionalComment= "/*"~"*/"
-EndOfLineComment = "//" {InputCharacter}* {LineTerminator}?
 
-Identifier = [:jletter:][:jletterdigit:]*
 
-LineTerminator = \r|\n|\r\n
+LineBreak = (\n | \r | \r\n)
+NoneBreakChar = [^ \n\r]
+WhiteSpace = (\s)
 
-WhiteSpace = {LineTerminator} | [ \t\f]
+//Comments
+OneLineComment = "//" {NoneBreakChar}* {LineBreak}?
+MultiLineComment="/*"~"*/"
+Comment = {OneLineComment}|{MultiLineComment}
 
-DecInteger = [0-9]*
+//Digits
+Digit= [0-9]
+HexDigit=[a-f A-F 0-9]
 
-HexNumber = "0"[xX][0-9a-fA-F]*
+//Numbers
+HexNumber = ("0x"|"0X") {HexDigit}
+FloatNumber = {Digit}+ "." + {Digit}*
+ExpoFloatNumber = {FloatNumber}"E"("-"|"+")?{Digit}
 
-// to check
-FloatNumber = \d+\.\d*([eE]([+-])?\d+)?
 
-string = \"[^(\\n|\\r)]~\"
+//Literals
+IntLiteral = ({Digit}+) | {HexNumber}
+DoubleLiteral = {FloatNumber}|{ExpoFloatNumber}
+BooleanLiteral = "false"|"true"
+StringLiteral = \"[^(\\n|\\r)]~\"
+
+
+//id
+Identifier = [a-zA-Z][a-zA-Z0-9_]*
+
 
 %%
 <YYINITIAL>{
@@ -105,12 +116,17 @@ string = \"[^(\\n|\\r)]~\"
 	"{"					 {out.append("{\n");}
 	"}"					 {out.append("}\n");}
 
+    //Literal detect action
+    {BooleanLiteral}    {out.append("T_BOOLEANLITERAL"+ yytext()+"\n");}
+    {IntLiteral}    {out.append("T_INTLITERAL"+ yytext()+"\n");}
+    {DoubleLiteral}    {out.append("T_DOUBLELITERAL"+ yytext()+"\n");}
+    {StringLiteral}    {out.append("T_STRINGLITERAL"+ yytext()+"\n");}
 
+    //Identifier detect action
     {Identifier}         { out.append("T_ID " + yytext() +"\n"); }
+    //WhiteSpace detect action
     {WhiteSpace}         {/*ignore*/}
-    {DecInteger}         { out.append("T_INTLITERAL " + yytext() +"\n"); }
-    {HexNumber}          { out.append("T_INTLITERAL " + yytext() +"\n"); }
-    {FloatNumber}        { out.append("T_DOUBLELITERAL "+ yytext() +"\n");}
-    {string}             { out.append("T_STRINGLITERAL " + yytext() +"\n");}
+
+    //Comment detect action
     {Comment}            {/*ignore*/}
 }
