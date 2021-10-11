@@ -76,13 +76,6 @@ Identifier = [a-zA-Z][a-zA-Z0-9_]*
 
     "define"             {defineMap.put("","");}
 
-//    "‫‪dtoi‬‬"               {out.append("‫‪dtoi‬‬\n");}
-//    "‫‪itod‬‬"               {out.append("‫‪itod‬‬\n");}
-//    "‫‪btoi‬‬"               {out.append("‫‪btoi‬‬\n");}
-//    "‫‪itob‬‬"               {out.append("‫‪itob‬‬\n");}
-//    "‫‪private‬‬"            {out.append("‫‪private\n");}
-//    "‫‪protected‬‬"          {out.append("‫‪protected‬‬\n");}
-//    "‫‪public‬‬"             {out.append("‫‪public‬‬\n");}
 
     "false"              {out.append("T_BOOLEANLITERAL false\n");}
     "true"               {out.append("T_BOOLEANLITERAL true\n");}
