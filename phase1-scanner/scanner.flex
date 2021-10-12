@@ -30,7 +30,7 @@ System.out.println(out.toString());
 
 LineBreak = (\n|\r|\r\n)
 NoneBreakChar = [^\n\r]
-WhiteSpace = (\s)
+WhiteSpace = \s
 
 //Comments
 OneLineComment = ("//"{NoneBreakChar}* {LineBreak}?)
