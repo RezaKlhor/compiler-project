@@ -12,6 +12,7 @@ import  java.io.IOException;
 %}
 
 %eof{
+System.out.println(argv[1]);
 /*
     BufferedWriter bwr = new BufferedWriter(new FileWriter(new File("out/out.txt")));
 try{
