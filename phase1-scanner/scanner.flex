@@ -8,7 +8,6 @@ import  java.io.IOException;
 
 %{
     StringBuffer out = new StringBuffer();
-
 %}
 
 %eof{
@@ -24,9 +23,6 @@ try{
 System.out.println(out.toString());
 
 %eof}
-
-
-
 
 LineBreak = (\n|\r|\r\n)
 NoneBreakChar = [^\n\r]
@@ -46,29 +42,25 @@ HexNumber = ("0x"|"0X") {HexDigit}+ //?
 FloatNumber = {Digit}+ "." + {Digit}*
 ExpoFloatNumber = {FloatNumber}"E"("-"|"+")?{Digit}+
 
-
 //Literals
 IntLiteral = ({Digit}+) | {HexNumber}
 DoubleLiteral = {FloatNumber}|{ExpoFloatNumber} //?
 BooleanLiteral = "false"|"true"
 StringLiteral = \"[^(\\n|\\r)]~\" //?
 
-
 //id
 Identifier = [a-zA-Z][a-zA-Z0-9_]*
-
 
 %%
 
 <YYINITIAL>{
     "__func__"           {out.append("__func__\n");}
-    "__line__"           {out.append("__line__\n");} //apend yyline
+    "__line__"           {out.append("__line__\n");}
     "bool"               {out.append("bool\n");}
     "break"              {out.append("break\n");}
     "btoi"               {out.append("btoi\n");}
     "class"              {out.append("class\n");}
     "continue"           {out.append("continue\n");}
-
     "double"             {out.append("double\n");}
     "dtoi"               {out.append("dtoi\n");}
     "else"               {out.append("else\n");}
@@ -92,9 +84,6 @@ Identifier = [a-zA-Z][a-zA-Z0-9_]*
     "void"               {out.append("void\n");}
     "while"              {out.append("while\n");}
 
-    "define"             {}
-
-
     "false"              {out.append("T_BOOLEANLITERAL false\n");}
     "true"               {out.append("T_BOOLEANLITERAL true\n");}
 
@@ -108,10 +97,10 @@ Identifier = [a-zA-Z][a-zA-Z0-9_]*
     ">"					 {out.append(">\n");}
     ">="				 {out.append(">=\n");}
 	"="					 {out.append("=\n");}
-    "+="				 {out.append("=\n");}
-	"-="				 {out.append("=\n");}
-    "*="				 {out.append("=\n");}
-	"/="				 {out.append("=\n");}
+    "+="				 {out.append("+=\n");}
+	"-="				 {out.append("-=\n");}
+    "*="				 {out.append("*=\n");}
+	"/="				 {out.append("/=\n");}
     "=="				 {out.append("==\n");}
     "!="				 {out.append("!=\n");}
 	"&&"				 {out.append("&&\n");}
@@ -135,6 +124,7 @@ Identifier = [a-zA-Z][a-zA-Z0-9_]*
 
     //Identifier detect action
     {Identifier}         { out.append("T_ID " + yytext() +"\n"); }
+
     //WhiteSpace detect action
     {WhiteSpace}         {/*ignore*/}
 
