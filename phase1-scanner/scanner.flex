@@ -11,16 +11,8 @@ import  java.io.IOException;
 %}
 
 %eof{
-/*
-    BufferedWriter bwr = new BufferedWriter(new FileWriter(new File("out/out.txt")));
-try{
-    bwr.write(out.toString());
 
-}catch (Exeption e) {
-    System.out.println(e);
-}
-*/
-System.out.println(out.toString());
+    System.out.println(out.toString());
 
 %eof}
 
